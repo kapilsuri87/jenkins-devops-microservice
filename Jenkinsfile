@@ -8,7 +8,7 @@
 // 	echo "Deploy"
 // }
 
-Declarative APPROACH
+// Declarative APPROACH
 pipeline {
 	agent any
 	stages{
