@@ -1,14 +1,16 @@
 pipeline {
 	agent any
+	//To get tools defined in global tools configuration we use environment
 	environment{
+		//To get the path of defined plugin use tool command as below
 		dockerHome = tool 'myDocker'
 		mavenHome = tool 'myMaven'
+		// To add the paths to path variable use path command
 		PATH= "$mavenHome/bin:$dockerHome/bin:$PATH"
 	}
 	stages{
-		stage('Build'){
+		stage('Checkout'){
 			steps{
-				echo "Build"
 				sh 'mvn --version' 
 				sh "docker --version"
 				echo "Current Job Name - $env.JOB_NAME"
@@ -16,28 +18,20 @@ pipeline {
 				echo "Current Build Url - $env.BUILD_URL"
 			}
 		}
+		stage('Compile'){
+			steps{
+				sh "mvn clean compile"
+			}
+		}
 		stage('Test'){
 			steps{
-				echo "Test"
+				echo "mvn test"
 			}
 		}
-		stage('Deployment'){
+		stage('Integration Test'){
 			steps{
-				echo "Deploy"
+				echo "mvn failsafe:integration-test failsafe:verify"
 			}
 		}
-	}
-	post{
-		always{
-			echo "I always run"
-		}
-		success{
-			echo "I only run if build is successfull"
-		}
-		failure{
-			echo "I run when builf fails"
-		}
-		//changed: When build status changes then this event is triggered
-		//unstable: If test cases fails
 	}
 }
