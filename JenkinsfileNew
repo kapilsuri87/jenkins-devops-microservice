@@ -1,16 +1,26 @@
+// SCRIPTED APPROACH - Stahge blocks are opptional
+// node {
+// 	stage('Build') {
+// 		echo "Build"
+// 	}
+// 	// OR
+// 	echo "Test"
+// 	echo "Deploy"
+// }
+
+// Declarative APPROACH
 pipeline {
 	agent any
-	environment{
-		dockerHome = tool 'myDocker'
-		mavenHome = tool 'myMaven'
-		PATH= "$mavenHome/bin:$dockerHome/bin:$PATH"
-	}
+	//To use a docker image user agent as docker
+	// agent {
+    //     docker { image 'maven:3.6.3' }
+    // }
 	stages{
 		stage('Build'){
 			steps{
+				// sh 'mvn --version' 
 				echo "Build"
-				sh 'mvn --version' 
-				sh "docker --version"
+				echo "Current Build - $env.BUILD_NUMBER"
 				echo "Current Job Name - $env.JOB_NAME"
 				echo "Current Build Tag - $env.BUILD_TAG"
 				echo "Current Build Url - $env.BUILD_URL"
