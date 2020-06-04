@@ -33,5 +33,28 @@ pipeline {
 				echo "mvn failsafe:integration-test failsafe:verify"
 			}
 		}
+		stage('Mvn package'){
+			steps{
+				echo "mvn package -DskipTests"
+			}
+		}
+		stage('Build Docker image'){
+			steps{
+				"docker build -t kapilsuri2905/currency-conversion:env.BUILD_TAG"
+				script {
+					dockerImage = docker.build("kapilsuri2905/currency-conversion:env.BUILD_TAG")
+				}
+			}
+		}
+		stage('Push Docker image'){
+			steps{
+				script {
+					docker.withRegistry('', 'dockerHub'){
+					dockerImage.push();
+					dockerImage.push('latest')
+					}
+				}
+			}
+		}
 	}
 }
