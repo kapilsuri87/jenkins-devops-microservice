@@ -40,7 +40,8 @@ pipeline {
 		}
 		stage('Build Docker image'){
 			steps{
-				"docker build -t kapilsuri2905/currency-conversion:env.BUILD_TAG"
+				// Primitive way of creating an docker image is as below
+				// "docker build -t kapilsuri2905/currency-conversion:env.BUILD_TAG"
 				script {
 					dockerImage = docker.build("kapilsuri2905/currency-conversion:env.BUILD_TAG")
 				}
