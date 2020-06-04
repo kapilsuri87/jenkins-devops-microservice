@@ -28,4 +28,15 @@ pipeline {
 			}
 		}
 	}
+	post{
+		always{
+			echo "I always run"
+		}
+		success{
+			echo "I only run if build is successfull"
+		}
+		failure{
+			echo "I run when builf fails"
+		}
+	}
 }
