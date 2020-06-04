@@ -11,7 +11,8 @@
 // Declarative APPROACH
 pipeline {
 	// agent any
-	agent { docker { image 'maven:3.6.3'} }
+	//To use a docker image user agent as docker
+	agent{ docker { image 'maven:3.6.3'} }
 	stages{
 		stage('Build'){
 			steps{
